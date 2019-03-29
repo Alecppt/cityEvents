@@ -1,8 +1,22 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import './index.css';
-import App from './App';
+import App from './pages/App'
+import Splash from './pages/Splash'
+
 import * as serviceWorker from './serviceWorker';
+
+const Root = () =>{
+    return (
+        <Router>
+            <switch>
+                <Route exact path="/" component={App}/>
+                <Route exact path="/login" component={Splash}/>
+            </switch>
+        </Router>
+    )
+}
 
 ReactDOM.render(<App />, document.getElementById('root'));
 
