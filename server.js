@@ -3,7 +3,7 @@ const typeDefs = require('./typeDefs')
 const resolvers = require('./resolvers')
 const mongoose = require('mongoose')
 
-const {findOrCreateUSer} = require('./controllers/userController')
+const {findOrCreateUser} = require('./controllers/userController')
 require('dotenv').config()
 
 mongoose.connect(process.env.MONGO_URI,  {userNewUrlParser: true })
@@ -14,19 +14,22 @@ const server = new ApolloServer({
     
     typeDefs,
     resolvers,
-    context: ({ req }) => {
+    context: async ({ req }) => {
         let authToken = null
+        let currentUser = null
         try
         {
             authToken = req.headers.authorization
             if (authToken)
             {
-                
+                // find user in DB, or create user
+                currentUser = await findOrCreateUser(authToken)
             }
-        }catch (err)
+        }catch (error)
         {
-            console.error(`Unable to authenticate, token: ${authToken}`)
+            console.error(`Unable to authenticate, token: ${authToken}`, error)
         }
+        return { currentUser }
     }
 });
 

@@ -1,12 +1,11 @@
 import React from "react"
-import Splash from "./Splash"
-
+import withRoot from "../withRoot"
 const App = () =>
 {
     return (
         <div>
-            <Splash />
+            <h1>app</h1>
         </div>
     )
 }
-export default App
+export default withRoot(App)

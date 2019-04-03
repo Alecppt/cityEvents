@@ -15,11 +15,11 @@ const ME_QUERY = `
         picture
     }
 }`
-  const onSuccess = async googleUser => {
+const onSuccess = async googleUser => {
     const idToken = googleUser.getAuthResponse().id_token
     const client = new GraphQLClient('http://localhost:4000/graphql', {headers:{authorization: idToken}})
-    const data = client.request(ME_QUERY)
-     console.log({idToken})
+    const data = await client.request(ME_QUERY)
+     console.log({ data })
  }
 
 const Login = ({classes}) =>
@@ -41,16 +41,16 @@ const Login = ({classes}) =>
     )
 }
 
-// const styles = {
-//     root: {
-//         height: "100vh",
-//         display: "flex",
-//         justifyContent: "center",
-//         flexDirection: "column",
-//         alignItems: "center",
-//         margin: "0 3px"
-//     }
-// }
+const styles = {
+    root: {
+        height: "100vh",
+        display: "flex",
+        justifyContent: "center",
+        flexDirection: "column",
+        alignItems: "center",
+        margin: "0 3px"
+    }
+}
 
-export default Login
-// export default withStyles(styles)(Login);
+// export default Login
+export default withStyles(styles)(Login);
