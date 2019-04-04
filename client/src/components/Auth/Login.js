@@ -18,6 +18,7 @@ const onSuccess = async googleUser => {
     const client = new GraphQLClient('http://localhost:4000/graphql', {headers:{authorization: idToken}})
     const { me } = await client.request(ME_QUERY)
     dispatch({type: "LOGIN_USER", payload: me })
+    dispatch({type: "IS_LOGGED_IN", payload: googleUser.isSignedIn()})
     }
     catch(err)
     {
@@ -31,7 +32,7 @@ const onSuccess = async googleUser => {
         <div className={classes.root}>
             <GoogleLogin
                 clientId="995284673460-h6k7nlekvpqvildh292n73dcsti9hmgh.apps.googleusercontent.com"
-                buttonText="Login"
+                // buttonText="Login"
                 onSuccess={onSuccess}
                 onFailure={onFailure}
                 cookiePolicy={'single_host_origin'}
