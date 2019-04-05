@@ -1,8 +1,8 @@
 import React, { useContext, useState, useEffect } from "react"
 import ReactMapGL, {NavigationControl, Marker} from "react-map-gl"
-import Pinicon from "./PinIcon"
 import {withStyles} from "@material-ui/core/styles"
-
+import Pinicon from "./PinIcon"
+import Context from "../context"
 const INIITIAL_VIEWPORT = {
     latitude:  49.2827,
     longitude: -123.1207,
@@ -11,6 +11,7 @@ const INIITIAL_VIEWPORT = {
 }
 
 const Map = ({classes}) => {
+    const {state, dispatch} = useContext(Context)
     const [viewport, setViewport] = useState(INIITIAL_VIEWPORT)
     const [userPosition, setUserPosition] = useState(null)
     useEffect(() => {
@@ -28,8 +29,17 @@ const Map = ({classes}) => {
         })
       }
     }
-    const handleMapClick = event => {
-      console.log(event)
+    const handleMapClick = ({lngLat, leftButton} )=> {
+      if (!leftButton) return 
+      if (!state.draft) {
+        dispatch({type: "CREATE_DRAFT"})
+      }
+      const [longitude, latitude] = lngLat
+      dispatch({
+        type: "UPDATE_DRAFT_LOCATION",
+        payload: {longitude, latitude}
+      })
+       // console.log(logLat, leftButton)
     }
     return (
         <div className={classes.root}>
@@ -48,18 +58,34 @@ const Map = ({classes}) => {
               ></NavigationControl>
             </div>
             //pin user current position
-            {userPosition && 
+            { userPosition && 
               <Marker
               latitude={userPosition.latitude}
               longitude={userPosition.longitude}
               offsetLeft={-19}
               offsetTop={-37}
-            >
-            <Pinicon
-              size={40}
-              color="red"
-            ></Pinicon>
-            </Marker>}
+              >
+                <Pinicon
+                  size={40}
+                  color="red"
+                />
+              </Marker>
+            }
+            { state.draft && 
+              (
+                <Marker
+              latitude={state.draft.latitude}
+              longitude={state.draft.longitude}
+              offsetLeft={-19}
+              offsetTop={-37}
+              >
+                <Pinicon
+                  size={40}
+                  color="gray"
+                />
+              </Marker>
+              )
+            }
             </ReactMapGL>
         </div>
     )
