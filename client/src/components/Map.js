@@ -39,8 +39,8 @@ const Map = ({classes}) => {
         type: "UPDATE_DRAFT_LOCATION",
         payload: {longitude, latitude}
       })
-       // console.log(logLat, leftButton)
     }
+
     return (
         <div className={classes.root}>
             <ReactMapGL
@@ -78,6 +78,13 @@ const Map = ({classes}) => {
               longitude={state.draft.longitude}
               offsetLeft={-19}
               offsetTop={-37}
+              draggable
+              onDragEnd={({lngLat}) => {
+                const [longitude, latitude] = lngLat
+                dispatch({type: "UPDATE_DRAFT_LOCATION",
+                          payload: {longitude, latitude}
+                        })
+                      }}
               >
                 <Pinicon
                   size={40}
