@@ -1,8 +1,11 @@
 import React, { useContext, useState, useEffect } from "react"
 import ReactMapGL, {NavigationControl, Marker} from "react-map-gl"
 import {withStyles} from "@material-ui/core/styles"
+
 import Pinicon from "./PinIcon"
+import LocationInfo from "./LocationInfo"
 import Context from "../context"
+
 const INIITIAL_VIEWPORT = {
     latitude:  49.2827,
     longitude: -123.1207,
@@ -94,6 +97,10 @@ const Map = ({classes}) => {
               )
             }
             </ReactMapGL>
+
+            <LocationInfo>
+              
+            </LocationInfo>
         </div>
     )
 }
