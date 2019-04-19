@@ -5,31 +5,27 @@ import {withStyles} from "@material-ui/core/styles"
 import Context from '../../context'
 import { ME_QUERY } from '../../graphql/queries'
 
-
-const Login = ({classes}) =>
-{
+const Login = ({classes}) => {
     
-const { dispatch } = useContext(Context)
-const onSuccess = async googleUser => {
+  const { dispatch } = useContext(Context)
+  const onSuccess = async googleUser => {
     
-    try
-    {
-    const idToken = googleUser.getAuthResponse().id_token
-    const client = new GraphQLClient('http://localhost:4000/graphql', {headers:{authorization: idToken}})
-    const { me } = await client.request(ME_QUERY)
-    dispatch({type: "LOGIN_USER", payload: me })
-    // debugger;
-    dispatch({type: "IS_LOGGED_IN", payload: googleUser.isSignedIn()})
+    try {
+      const idToken = googleUser.getAuthResponse().id_token
+      const client = new GraphQLClient('http://localhost:4000/graphql', {headers:{authorization: idToken}})
+      const { me } = await client.request(ME_QUERY)
+      dispatch({type: "LOGIN_USER", payload: me })
+      // debugger;
+      dispatch({type: "IS_LOGGED_IN", payload: googleUser.isSignedIn()})
     }
-    catch(err)
-    {
+    catch(err) {
         onFailure(err)
     }
- }
+  }
 
- const onFailure = err => console.error("error logging in", err)
+  const onFailure = err => console.error("error logging in", err)
 
-    return (
+  return (
         <div className={classes.root}>
             <GoogleLogin
                 clientId="995284673460-h6k7nlekvpqvildh292n73dcsti9hmgh.apps.googleusercontent.com"
@@ -41,7 +37,7 @@ const onSuccess = async googleUser => {
                 theme="dark"
                 />
         </div>
-    )
+  )
 }
 
 const styles = {

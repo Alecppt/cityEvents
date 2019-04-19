@@ -7,6 +7,7 @@ import LocationInfo from "./LocationInfo"
 import Context from "../context"
 
 const INIITIAL_VIEWPORT = {
+  //vancouver location
     latitude:  49.2827,
     longitude: -123.1207,
     zoom: 14
@@ -77,18 +78,17 @@ const Map = ({classes}) => {
             { state.draft && 
               (
                 <Marker
-              latitude={state.draft.latitude}
-              longitude={state.draft.longitude}
-              offsetLeft={-19}
-              offsetTop={-37}
-              draggable
-              onDragEnd={({lngLat}) => {
-                const [longitude, latitude] = lngLat
-                dispatch({type: "UPDATE_DRAFT_LOCATION",
-                          payload: {longitude, latitude}
-                        })
-                      }}
-              >
+                  latitude={state.draft.latitude}
+                  longitude={state.draft.longitude}
+                  offsetLeft={-19}
+                  offsetTop={-37}
+                  draggable
+                  onDragEnd={ ({lngLat}) => {
+                              const [longitude, latitude] = lngLat
+                              dispatch({ type: "UPDATE_DRAFT_LOCATION", payload: {longitude, latitude }})
+                              }
+                            }
+                >
                 <Pinicon
                   size={40}
                   color="gray"
@@ -97,10 +97,7 @@ const Map = ({classes}) => {
               )
             }
             </ReactMapGL>
-
-            <LocationInfo>
-              
-            </LocationInfo>
+            <LocationInfo />          
         </div>
     )
 }
