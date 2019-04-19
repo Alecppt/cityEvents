@@ -9,22 +9,20 @@ import CreatePin from "./Pin/CreatePin"
 const LocationInfo = ({classes}) => {
     const {state, dispatch} = useContext(Context)
     const { draft } = state 
+    // console.log(draft)
 
-    let content; 
+    let PinContent;
     if (!draft){
-        content = EmptyContent
+        PinContent = EmptyContent
     }
     else{
-        content = CreatePin
+        PinContent = CreatePin
     }
     return(
-        <div>   
             <Paper className={classes.root}>
-                <content />
+                <PinContent />
             </Paper>
-        </div>
     )
-
 }
 
 const styles = {
@@ -43,4 +41,5 @@ const styles = {
       overflowY: "scroll"
     }
   }
+
 export default withStyles(styles)(LocationInfo)
